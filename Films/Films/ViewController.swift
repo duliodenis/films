@@ -21,10 +21,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func buttonTapped(sender: UIButton) {
-        titleLabel.text = "Lost Highway"
-        releaseLabel.text = "21 Feb 1997"
-        ratingLabel.text = "Rated R"
-        plotLabel.text = "After a bizarre encounter at a party, a jazz saxophonist is framed for the murder of his wife and sent to prison, where he inexplicably morphs into a young mechanic and begins leading a new life."
         posterLabelView.image = UIImage(named: "samplePoster")
         
         searchOMDB("Lost Highway")
@@ -35,11 +31,11 @@ class ViewController: UIViewController {
         
         print(spacelessString)
         
-        var urlPath = NSURL(string: "http://www.omdbapi.com/?t=\(spacelessString)")
+        let urlPath = NSURL(string: "http://www.omdbapi.com/?t=\(spacelessString!)")!
         print(urlPath)
         
         var session = NSURLSession.sharedSession()
-        var task = session.dataTaskWithURL(urlPath!) {
+        var task = session.dataTaskWithURL(urlPath) {
             data, response, error -> Void in
             
             if ((error) != nil) {
@@ -47,9 +43,21 @@ class ViewController: UIViewController {
             }
             
             var jsonError : NSError?
-            var jsonResult : NSJSONSerialization
+            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as! Dictionary<String, String>
+            
+            if ((jsonError) != nil) {
+                print(jsonError!.localizedDescription)
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                // Set label values
+                self.titleLabel.text = jsonResult["Title"]
+                self.releaseLabel.text = jsonResult["Released"]
+                self.ratingLabel.text = "Rated " + jsonResult["Rated"]!
+                self.plotLabel.text = jsonResult["Plot"]
+            }
         }
-        
+        task.resume()
     }
 
 }
