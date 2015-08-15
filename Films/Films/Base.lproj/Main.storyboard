@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epe-PH-Yf6">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="epe-PH-Yf6">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <variation key="widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="50" y="28" width="300" height="300"/>
@@ -95,7 +95,7 @@
                     </view>
                     <connections>
                         <outlet property="plotLabel" destination="ScW-52-4ZA" id="s5S-qx-XM8"/>
-                        <outlet property="posterLabelView" destination="epe-PH-Yf6" id="ioy-j1-uY9"/>
+                        <outlet property="posterImageView" destination="epe-PH-Yf6" id="1gF-1b-Mdb"/>
                         <outlet property="ratingLabel" destination="zbD-pE-6aV" id="OVU-Bb-hcX"/>
                         <outlet property="releaseLabel" destination="k9I-Vr-p9K" id="h9W-dt-xXq"/>
                         <outlet property="titleLabel" destination="i3D-lD-BRo" id="V2c-G1-TbF"/>

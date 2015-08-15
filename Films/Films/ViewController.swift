@@ -8,56 +8,49 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, OMDBAPIControllerDelegate {
     
+    // Outlets to the View
     @IBOutlet var titleLabel        : UILabel!
     @IBOutlet var releaseLabel      : UILabel!
     @IBOutlet var ratingLabel       : UILabel!
     @IBOutlet var plotLabel         : UILabel!
-    @IBOutlet var posterLabelView   : UIImageView!
+    @IBOutlet var posterImageView   : UIImageView!
+    
+    // Lazy Stored Property
+    lazy var apiController: OMDBAPIController = OMDBAPIController(delegate: self)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // become the delegate of the OMDB API Controller
+        apiController.delegate = self
     }
+    
     
     @IBAction func buttonTapped(sender: UIButton) {
-        posterLabelView.image = UIImage(named: "samplePoster")
-        
-        searchOMDB("Lost Highway")
-    }
-    
-    func searchOMDB(forContent:String) {
-        var spacelessString = forContent.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-        
-        print(spacelessString)
-        
-        let urlPath = NSURL(string: "http://www.omdbapi.com/?t=\(spacelessString!)")!
-        print(urlPath)
-        
-        var session = NSURLSession.sharedSession()
-        var task = session.dataTaskWithURL(urlPath) {
-            data, response, error -> Void in
-            
-            if ((error) != nil) {
-                print(error.localizedDescription)
-            }
-            
-            var jsonError : NSError?
-            var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as! Dictionary<String, String>
-            
-            if ((jsonError) != nil) {
-                print(jsonError!.localizedDescription)
-            }
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                // Set label values
-                self.titleLabel.text = jsonResult["Title"]
-                self.releaseLabel.text = jsonResult["Released"]
-                self.ratingLabel.text = "Rated " + jsonResult["Rated"]!
-                self.plotLabel.text = jsonResult["Plot"]
-            }
-        }
-        task.resume()
+        apiController.searchOMDB("Lost Highway")
     }
 
+    
+    // Set the label in our View
+    func didFinishOMDBSearch(result: Dictionary<String, String>) {
+        titleLabel.text = result["Title"]
+        releaseLabel.text = result["Released"]
+        ratingLabel.text = "Rated " + result["Rated"]!
+        plotLabel.text = result["Plot"]
+        
+        if let foundPoster = result["Poster"] {
+            imageFromPath(foundPoster)
+        }
+    }
+    
+    
+    func imageFromPath(path: String) {
+        let posterURL = NSURL(string: path)
+        let posterImageData = NSData(contentsOfURL: posterURL!)
+        posterImageView.clipsToBounds = true
+        posterImageView.image = UIImage(data: posterImageData!)
+    }
 }
