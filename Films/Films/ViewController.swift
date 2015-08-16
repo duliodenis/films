@@ -40,14 +40,37 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     // MARK: - OMDB API Controller Delegate Method
     
     func didFinishOMDBSearch(result: Dictionary<String, String>) {
-        // Set the label in our View
-        titleLabel.text = result["Title"]
+        // Set the labels in our View
+        if let foundTitle = result["Title"] {
+            parseSubtitleFromTitle(foundTitle)
+        }
+        
         releaseLabel.text = result["Released"]
         ratingLabel.text = "Rated " + result["Rated"]!
         plotLabel.text = result["Plot"]
         
         if let foundPoster = result["Poster"] {
             imageFromPath(foundPoster)
+        }
+    }
+    
+    
+    func parseSubtitleFromTitle(title: String) {
+        // use the extension to find a colon in the title
+        var index = title.findIndexOf(":")
+        
+        // If we have a colon then split the title
+        if let foundIndex = index {
+            var newTitle = title[0..<foundIndex]
+            var subtitle = title[foundIndex + 2..<count(title)]
+            
+            // and set the labels accordingly
+            titleLabel.text = newTitle
+            subtitleLabel.text = subtitle
+        } else {
+            // otherwise we just have a title and no subtitle
+            titleLabel.text = title
+            subtitleLabel.text = ""
         }
     }
     

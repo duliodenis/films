@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C71E9EB1B80EE7E0093E508 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C71E9EA1B80EE7E0093E508 /* StringExtension.swift */; };
 		6C90B9C11B7E2A9100CD52A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C90B9C01B7E2A9100CD52A4 /* AppDelegate.swift */; };
 		6C90B9C31B7E2A9100CD52A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C90B9C21B7E2A9100CD52A4 /* ViewController.swift */; };
 		6C90B9C61B7E2A9100CD52A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C90B9C41B7E2A9100CD52A4 /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C71E9EA1B80EE7E0093E508 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		6C90B9BB1B7E2A9100CD52A4 /* Films.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Films.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C90B9BF1B7E2A9100CD52A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C90B9C01B7E2A9100CD52A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				6C90B9C01B7E2A9100CD52A4 /* AppDelegate.swift */,
 				6C90B9C21B7E2A9100CD52A4 /* ViewController.swift */,
 				6C90B9E01B7E89AE00CD52A4 /* OMDBAPIController.swift */,
+				6C71E9EA1B80EE7E0093E508 /* StringExtension.swift */,
 				6C90B9C41B7E2A9100CD52A4 /* Main.storyboard */,
 				6C90B9C71B7E2A9100CD52A4 /* Images.xcassets */,
 				6C90B9C91B7E2A9100CD52A4 /* LaunchScreen.xib */,
@@ -215,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C71E9EB1B80EE7E0093E508 /* StringExtension.swift in Sources */,
 				6C90B9C31B7E2A9100CD52A4 /* ViewController.swift in Sources */,
 				6C90B9E11B7E89AE00CD52A4 /* OMDBAPIController.swift in Sources */,
 				6C90B9C11B7E2A9100CD52A4 /* AppDelegate.swift in Sources */,
