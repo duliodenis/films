@@ -13,6 +13,7 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     // Outlets to the View
     @IBOutlet var titleLabel        : UILabel!
     @IBOutlet var subtitleLabel     : UILabel!
+    @IBOutlet var tomatoLabel       : UILabel!
     @IBOutlet var releaseLabel      : UILabel!
     @IBOutlet var ratingLabel       : UILabel!
     @IBOutlet var plotLabel         : UILabel!
@@ -50,6 +51,10 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
             parseSubtitleFromTitle(foundTitle)
         }
         
+        if let foundTomato = result["tomatoMeter"] {
+            tomatoLabel.text = foundTomato + "%"
+        }
+        
         releaseLabel.text = result["Released"]
         ratingLabel.text = "Rated " + result["Rated"]!
         plotLabel.text = result["Plot"]
@@ -65,7 +70,7 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     // force using a named parameters when calling the function by # prefixing the local name
     func formatLabels(#firstLaunch: Bool) {
         // create a convenience labels array to iterate through all view labels
-        var labelsArray = [titleLabel, subtitleLabel, releaseLabel, ratingLabel, plotLabel]
+        var labelsArray = [titleLabel, subtitleLabel, tomatoLabel, releaseLabel, ratingLabel, plotLabel]
         
         if (firstLaunch) {
             // iterate over the labels array and set the label to an empty string
@@ -85,6 +90,10 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
                 
             case subtitleLabel:
                 label.font = UIFont(name: "Avenir Next", size: 14)
+                
+            case tomatoLabel:
+                label.font = UIFont(name: "AvenirNext-UltraLight", size: 40)
+                label.textColor = UIColor(red: 0.984, green: 0.256, blue: 0.184, alpha: 1)
                 
             case releaseLabel, ratingLabel:
                 label.font = UIFont(name: "Avenir Next", size: 12)
