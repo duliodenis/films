@@ -23,7 +23,7 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     lazy var apiController: OMDBAPIController = OMDBAPIController(delegate: self)
     
     
-    // MARK: - View Lifecycle Methods
+    // MARK: - View Lifecycle Method
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,9 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
         
         // become the delegate of the OMDB API Controller
         apiController.delegate = self
+        
+        // format our view labels since this is the first launch
+        formatLabels(firstLaunch: true)
     }
 
     
@@ -41,6 +44,8 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     
     func didFinishOMDBSearch(result: Dictionary<String, String>) {
         // Set the labels in our View
+        formatLabels(firstLaunch: false)
+        
         if let foundTitle = result["Title"] {
             parseSubtitleFromTitle(foundTitle)
         }
@@ -51,6 +56,45 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
         
         if let foundPoster = result["Poster"] {
             imageFromPath(foundPoster)
+        }
+    }
+    
+    
+    // MARK: - Label and Text Helper Methods
+    
+    // force using a named parameters when calling the function by # prefixing the local name
+    func formatLabels(#firstLaunch: Bool) {
+        // create a convenience labels array to iterate through all view labels
+        var labelsArray = [titleLabel, subtitleLabel, releaseLabel, ratingLabel, plotLabel]
+        
+        if (firstLaunch) {
+            // iterate over the labels array and set the label to an empty string
+            for label in labelsArray {
+                label.text = ""
+            }
+        }
+        
+        // iterate through the labels to set their alignment and font
+        for label in labelsArray {
+            label.textAlignment = .Center
+            
+            switch label {
+            
+            case titleLabel:
+                label.font = UIFont(name: "Avenir Next", size: 24)
+                
+            case subtitleLabel:
+                label.font = UIFont(name: "Avenir Next", size: 14)
+                
+            case releaseLabel, ratingLabel:
+                label.font = UIFont(name: "Avenir Next", size: 12)
+                
+            case plotLabel:
+                label.font = UIFont(name: "Avenir Next", size: 18)
+                
+            default:
+                label.font = UIFont(name: "Avenir Next", size: 14)
+            }
         }
     }
     
@@ -138,7 +182,9 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     
     // MARK: - Tap Gesture Recognizer Method
     
+    // clear the search and dismiss the keyboard if the user taps in the view
     func tappedInView(recognizer: UITapGestureRecognizer) {
+        omdbSearchBar.text = ""
         omdbSearchBar.resignFirstResponder()
     }
     

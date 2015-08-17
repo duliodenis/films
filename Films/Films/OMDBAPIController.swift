@@ -28,11 +28,7 @@ class OMDBAPIController {
     func searchOMDB(forContent:String) {
         var spacelessString = forContent.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         
-        print("Spaceless string: " + spacelessString! + "\n")
-        
         let urlPath = NSURL(string: "http://www.omdbapi.com/?t=\(spacelessString!)&tomatoes=true")!
-        print(urlPath)
-        print("\n")
         
         var session = NSURLSession.sharedSession()
         var task = session.dataTaskWithURL(urlPath) {
