@@ -19,6 +19,7 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     @IBOutlet var plotLabel         : UILabel!
     @IBOutlet var posterImageView   : UIImageView!
     @IBOutlet var omdbSearchBar     : UISearchBar!
+    @IBOutlet var headerView        : UIView!
     
     // Lazy Stored Property
     lazy var apiController: OMDBAPIController = OMDBAPIController(delegate: self)
@@ -38,6 +39,9 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
         
         // format our view labels since this is the first launch
         formatLabels(firstLaunch: true)
+        
+        // set the color of our header view
+        headerView.backgroundColor = UIColor(red:0.898, green:0.741, blue:0.153, alpha:1)
     }
 
     
@@ -55,12 +59,27 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
             tomatoLabel.text = foundTomato + "%"
         }
         
-        releaseLabel.text = result["Released"]
-        ratingLabel.text = "Rated " + result["Rated"]!
+        if let foundReleased = result["Released"] {
+            releaseLabel.text = "Released on " + foundReleased
+        } else {
+            releaseLabel.text = ""
+        }
+        
+        if let foundRating = result["Rated"] {
+            ratingLabel.text = "Rated " + foundRating
+        } else {
+            ratingLabel.text = ""
+        }
+
         plotLabel.text = result["Plot"]
         
         if let foundPoster = result["Poster"] {
-            imageFromPath(foundPoster)
+            if foundPoster == "N/A" {
+                imageFromPath("http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
+            } else {
+                imageFromPath(foundPoster)
+            }
+
         }
     }
     
@@ -84,7 +103,7 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
             label.textAlignment = .Center
             
             switch label {
-            
+                
             case titleLabel:
                 label.font = UIFont(name: "Avenir Next", size: 24)
                 
@@ -133,6 +152,7 @@ class ViewController: UIViewController, OMDBAPIControllerDelegate, UISearchBarDe
     func imageFromPath(path: String) {
         let posterURL = NSURL(string: path)
         let posterImageData = NSData(contentsOfURL: posterURL!)
+        posterImageView.layer.cornerRadius = 100.0
         posterImageView.clipsToBounds = true
         posterImageView.image = UIImage(data: posterImageData!)
         
